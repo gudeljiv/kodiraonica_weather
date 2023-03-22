@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
-import User from '../components/UserComponent'
-import Weather from '../components/WeatherComponent'
+import User from './components/UserComponent'
+import Weather from './components/WeatherComponent'
 
 function App() {
 	return (
