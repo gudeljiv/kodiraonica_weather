@@ -1,0 +1,79 @@
+.location {
+	background-color: #262525;
+	color: white;
+	padding: 20px;
+	border-radius: 10px;
+}
+
+h2 {
+	margin-top: 10px;
+	margin-bottom: 25px;
+}
+
+.country {
+	font-size: 12px;
+}
+
+.date {
+	font-size: 12px;
+}
+
+.current {
+	background-color: #262525;
+	color: white;
+	padding: 20px;
+	border-radius: 10px;
+	margin-top: 10px;
+	position: relative;
+}
+
+.icon {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+
+.forecastDay {
+	background-color: #262525;
+	color: white;
+	padding: 20px;
+	border-radius: 10px;
+	margin-top: 10px;
+	margin-left: 40px;
+	position: relative;
+	cursor: pointer;
+}
+
+.forecastDay .icon {
+	top: 2px;
+	right: 10px;
+}
+
+.forecastDay .icon img {
+	width: 50px;
+}
+
+.forecastDay h5 {
+	margin: 0px;
+	margin-top: 10px;
+}
+
+.forecastHour {
+	background-color: #262525;
+	color: white;
+	padding: 2px;
+	margin-top: 2px;
+	margin-left: 40px;
+	position: relative;
+}
+
+.forecastDay h5 {
+	margin: 0px;
+	margin-top: 10px;
+	font-size: 14px;
+}
+
+.forecastWeatherHourWrapper {
+	margin-top: 40px;
+	display: block;
+}
