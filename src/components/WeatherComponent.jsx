@@ -1,60 +1,30 @@
 import styled from '@emotion/styled'
-import { useEffect, useState } from 'react'
-import { format } from 'date-fns'
+import { createRef, useEffect, useRef, useState } from 'react'
 import api from '../helper/db'
+import getWeatherHook from '../hooks/GetWeatherHook'
 import './WeatherComponent.css'
 // import SelectHelper from '../helper/SelectHelper'
 // import Select from 'react-select'
 
 const Weather = (props) => {
-	const [weather, setWeather] = useState()
 	const [filters, setFilter] = useState({ city: 'zagreb', days: 1, forecast: 0 })
-	const [forecast, setForecast] = useState(0)
+	const [focused, setFocused] = useState(false)
 
-	useEffect(() => {
-		console.log('init weather')
-		console.log(import.meta.env.VITE_WEATHER_API_KEY)
-	}, [])
+	let weather = getWeatherHook(filters)
 
-	useEffect(() => {
-		console.log(filters)
-		if (!filters.city) return
-		if (!filters.days) return
+	const inputCityRef = createRef()
 
-		const timer = setTimeout(() => {
-			getWeather()
-		}, 1000)
-		return () => clearTimeout(timer)
-	}, [filters, forecast])
-
-	useEffect(() => {
-		if (!weather) return
-
-		console.log('weather', weather)
-	}, [weather])
-
-	const getWeather = async () => {
-		// https://api.weatherapi.com/v1/forecast.json?key=81fa2363d43b4ca0aaa90236232203 &q=London&days=7&aqi=yes&alerts=yes
-		let api_key = import.meta.env.VITE_WEATHER_API_KEY
-		let f = filters.forecast == 1 ? 'forecast.json' : 'current.json'
-
-		let endpoint = `https://api.weatherapi.com/v1/${f}?key=${api_key}&q=${filters.city}&days=${filters.days}&aqi=yes&alerts=yes`
-
-		console.log(endpoint)
-
-		let weather = await api.get(endpoint)
-		setWeather(weather)
+	const handleChange = (e) => {
+		console.log('change', e.target.value.length)
+		// if (e.target.value.length > 2 || e.target.value.length == 0) setFilter({ ...filters, city: e.target.value })
+		setFilter({ ...filters, city: e.target.value })
+		setFocused(true)
 	}
 
-	// const handleRadioButton = (e, forecast) => {
-	// 	e.preventDefault()
-	// 	setFilter({ ...filters, forecast: e.target.value })
-	// }
-
-	// const handleChange = (e, forecast) => {
-	// 	e.preventDefault()
-	// 	setFilter({ ...filters, city: e.target.value })
-	// }
+	useEffect(() => {
+		console.log('inputCityRef', inputCityRef.current, focused)
+		if (focused) inputCityRef.current.focus()
+	}, [focused])
 
 	const Input = styled.input`
 		padding: 10px;
@@ -92,7 +62,9 @@ const Weather = (props) => {
 		margin-right: 40px;
 	`
 
-	const Label = styled.label``
+	const Label = styled.label`
+		margin-right: 40px;
+	`
 
 	const DivResult = styled.div`
 		margin-top: 40px;
@@ -108,13 +80,7 @@ const Weather = (props) => {
 			<div>
 				<form>
 					<Label>Grad:</Label>
-					<Input
-						autoFocus
-						defaultValue={filters.city}
-						value={filters.city}
-						onChange={(e) => setFilter({ ...filters, city: e.target.value })}
-						width="75%"
-					/>
+					<Input autoFocus ref={inputCityRef} defaultValue={filters.city} value={filters.city} onChange={handleChange} width="75%" />
 
 					<Label>Dana (1-7):</Label>
 					<Input
